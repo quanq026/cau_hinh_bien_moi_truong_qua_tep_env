@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  quickbite-user:
+    image: quickbite-user-service:latest
+    container_name: quickbite-user
+    restart: always
+    ports:
+      - "${USER_SERVICE_PORT}:${USER_SERVICE_PORT}"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/quickbite_user_db
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    networks:
+      - quickbite-net
+
+  quickbite-restaurant:
+    image: quickbite-restaurant-service:latest
+    container_name: quickbite-restaurant
+    restart: always
+    ports:
+      - "${RESTAURANT_SERVICE_PORT}:${RESTAURANT_SERVICE_PORT}"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/quickbite_restaurant_db
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    networks:
+      - quickbite-net
+
+  quickbite-order:
+    image: quickbite-order-service:latest
+    container_name: quickbite-order
+    restart: always
+    ports:
+      - "${ORDER_SERVICE_PORT}:${ORDER_SERVICE_PORT}"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/quickbite_order_db
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    networks:
+      - quickbite-net
+
+  quickbite-notification:
+    image: quickbite-notification-service:latest
+    container_name: quickbite-notification
+    restart: always
+    ports:
+      - "${NOTIFICATION_SERVICE_PORT}:${NOTIFICATION_SERVICE_PORT}"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/quickbite_notification_db
+      - SPRING_DATASOURCE_USERNAME=${DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+    networks:
+      - quickbite-net
+
+networks:
+  quickbite-net:
+    external: true
